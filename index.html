@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="my">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ ရွှေဈေးဂဏန်းတွက်စက် ✨</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Pyidaungsu', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120 0%, #1a2639 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+        }
+
+        .calculator {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 32px;
+            padding: 1.8rem 1.5rem;
+            box-shadow: 0 30px 45px -15px rgba(0,0,0,0.6), 0 0 0 1px rgba(255, 215, 0, 0.2) inset;
+            transition: all 0.2s ease;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .header h2 {
+            color: #FFE484;
+            font-weight: 400;
+            font-size: 1.7rem;
+            letter-spacing: 2px;
+            text-shadow: 0 2px 5px rgba(255, 215, 0, 0.3);
+        }
+
+        .header p {
+            color: #aab7d4;
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Tabs */
+        .tab-container {
+            display: flex;
+            gap: 0.8rem;
+            margin-bottom: 2rem;
+            background: rgba(0, 0, 0, 0.35);
+            border-radius: 60px;
+            padding: 0.4rem;
+            border: 1px solid rgba(255, 204, 0, 0.25);
+        }
+
+        .tab {
+            flex: 1;
+            text-align: center;
+            padding: 0.8rem 0.2rem;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #b9c2d9;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            background: transparent;
+            border: none;
+            backdrop-filter: blur(4px);
+        }
+
+        .tab.active {
+            background: linear-gradient(115deg, #ffd966, #ffb347);
+            color: #0a0f1c;
+            font-weight: 600;
+            box-shadow: 0 6px 14px rgba(255, 200, 0, 0.5);
+        }
+
+        /* gold rate card */
+        .rate-card {
+            background: rgba(10, 20, 30, 0.7);
+            border-radius: 24px;
+            padding: 1rem 1.2rem;
+            margin-bottom: 1.8rem;
+            border: 1px solid rgba(255, 200, 50, 0.3);
+            box-shadow: 0 6px 0 #0e1a26;
+        }
+
+        .rate-label {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #FFD966;
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .rate-label span {
+            font-size: 1.3rem;
+        }
+
+        .rate-input {
+            width: 100%;
+            background: #121f2f;
+            border: 2px solid #3e4d5f;
+            border-radius: 40px;
+            padding: 0.9rem 1.2rem;
+            font-size: 1.2rem;
+            color: #FFE68F;
+            font-weight: 600;
+            outline: none;
+            transition: all 0.2s;
+        }
+
+        .rate-input:focus {
+            border-color: #ffaa33;
+            box-shadow: 0 0 0 4px rgba(255, 170, 51, 0.3);
+        }
+
+        /* Input groups */
+        .input-group {
+            margin-bottom: 1.8rem;
+        }
+
+        .section-title {
+            color: #cfddf5;
+            margin-bottom: 0.8rem;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border-left: 4px solid #fbbf24;
+            padding-left: 0.75rem;
+        }
+
+        .money-input {
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px solid #475569;
+            border-radius: 40px;
+            padding: 1rem 1.5rem;
+            width: 100%;
+            font-size: 1.3rem;
+            color: #ffffff;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .money-input:focus {
+            border-color: #fbbf24;
+            background: #0f1b27;
+        }
+
+        .weight-row {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .weight-box {
+            flex: 1;
+            min-width: 80px;
+            background: rgba(0, 0, 0, 0.35);
+            border: 1.5px solid #475569;
+            border-radius: 30px;
+            padding: 0.8rem 0.2rem 0.8rem 1.2rem;
+            font-size: 1.2rem;
+            color: #FFE484;
+            outline: none;
+            transition: 0.2s;
+        }
+
+        .weight-box:focus {
+            border-color: #fbbf24;
+        }
+
+        .weight-label {
+            color: #9aa9c1;
+            font-size: 0.8rem;
+            margin-top: 0.3rem;
+            display: block;
+            text-align: center;
+        }
+
+        /* Result display */
+        .result-panel {
+            background: linear-gradient(125deg, #162330, #0e1a24);
+            border-radius: 28px;
+            padding: 1.4rem 1.8rem;
+            border: 1px solid #ffd96655;
+            box-shadow: 0 8px 0 #0a1018, 0 0 20px #ffbf0040;
+            margin-top: 1rem;
+        }
+
+        .result-label {
+            color: #b8c7e7;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #FFD973;
+            line-height: 1.3;
+            word-break: break-word;
+            text-shadow: 0 2px 5px rgba(255, 200, 0, 0.5);
+        }
+
+        .unit-note {
+            color: #8f9fb1;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            border-top: 1px dashed #3a4a5a;
+            padding-top: 0.5rem;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            font-size: 0.75rem;
+            text-align: center;
+            color: #60758b;
+            margin-top: 1.5rem;
+        }
+
+        /* remove spinner from number inputs */
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        input[type=number] {
+            -moz-appearance: textfield;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="header">
+            <h2>✨ ရွှေဈေးကွက် ✨</h2>
+            <p>ကျပ်ငွေ ↔ ကျပ်ပဲရွေး အပြန်အလှန်တွက်ရန်</p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="tab-container">
+            <button class="tab active" id="tabToGold">ငွေ → ရွှေ</button>
+            <button class="tab" id="tabToMoney">ရွှေ → ငွေ</button>
+        </div>
+
+        <!-- Gold rate (fixed) -->
+        <div class="rate-card">
+            <div class="rate-label">
+                <span>🏅</span> မီးလင်းရွှေ ၁ ကျပ်သား ဈေးနှုန်း
+            </div>
+            <input type="number" id="goldRate" class="rate-input" value="10200000" step="10000" min="0">
+        </div>
+
+        <!-- Money to gold section -->
+        <div id="toGoldSection" class="input-group">
+            <div class="section-title">
+                <span>💰</span> သင်ဝယ်မည့်ငွေပမာဏ (ကျပ်)
+            </div>
+            <input type="number" id="inputMoney" class="money-input" placeholder="ဥပမာ 2500000" value="2500000">
+        </div>
+
+        <!-- Gold to money section (initially hidden) -->
+        <div id="toMoneySection" class="input-group hidden">
+            <div class="section-title">
+                <span>⚖️</span> ရွှေအလေးချိန်
+            </div>
+            <div class="weight-row">
+                <div style="flex:1">
+                    <input type="number" id="inputKyat" class="weight-box" placeholder="ကျပ်" value="0" min="0" step="1">
+                    <span class="weight-label">ကျပ်</span>
+                </div>
+                <div style="flex:1">
+                    <input type="number" id="inputPe" class="weight-box" placeholder="ပဲ" value="0" min="0" max="15" step="1">
+                    <span class="weight-label">ပဲ</span>
+                </div>
+                <div style="flex:1">
+                    <input type="number" id="inputYway" class="weight-box" placeholder="ရွေး" value="0" min="0" max="7" step="0.1">
+                    <span class="weight-label">ရွေး</span>
+                </div>
+            </div>
+            <div style="font-size:0.8rem; color:#7f8fa3; margin-top:0.3rem; padding-left:0.5rem;">
+                * ၁ ကျပ် = ၁၆ ပဲ၊ ၁ ပဲ = ၈ ရွေး
+            </div>
+        </div>
+
+        <!-- Result panel -->
+        <div class="result-panel">
+            <div class="result-label" id="resultLabel">
+                <span>🔮</span> ရရှိမည့် ရွှေအလေးချိန်
+            </div>
+            <div class="result-value" id="resultDisplay">၀ ကျပ် ၀ ပဲ ၀ ရွေး</div>
+            <div class="unit-note">* အထက်ပါတန်ဖိုးသည် ဈေးနှုန်းအရ တွက်ချက်ထားခြင်းဖြစ်သည်။</div>
+        </div>
+        <div class="footer">ရွှေဈေးကို ကျပ်သားဈေးနှုန်းအတိုင်း တွက်သည်</div>
+    </div>
+
+    <script>
+        (function() {
+            // DOM elements
+            const tabToGold = document.getElementById('tabToGold');
+            const tabToMoney = document.getElementById('tabToMoney');
+            const toGoldSection = document.getElementById('toGoldSection');
+            const toMoneySection = document.getElementById('toMoneySection');
+            const resultLabel = document.getElementById('resultLabel');
+            const resultDisplay = document.getElementById('resultDisplay');
+            const goldRateInput = document.getElementById('goldRate');
+            const inputMoney = document.getElementById('inputMoney');
+            const inputKyat = document.getElementById('inputKyat');
+            const inputPe = document.getElementById('inputPe');
+            const inputYway = document.getElementById('inputYway');
+
+            let currentMode = 'toGold';   // 'toGold' or 'toMoney'
+
+            // ----- helper: update active tab UI -----
+            function setActiveTab(mode) {
+                if (mode === 'toGold') {
+                    tabToGold.classList.add('active');
+                    tabToMoney.classList.remove('active');
+                    toGoldSection.classList.remove('hidden');
+                    toMoneySection.classList.add('hidden');
+                    resultLabel.innerHTML = '<span>🔮</span> ရရှိမည့် ရွှေအလေးချိန်';
+                } else {
+                    tabToMoney.classList.add('active');
+                    tabToGold.classList.remove('active');
+                    toMoneySection.classList.remove('hidden');
+                    toGoldSection.classList.add('hidden');
+                    resultLabel.innerHTML = '<span>💵</span> ကုန်ကျမည့် ငွေပမာဏ (ကျပ်)';
+                }
+                currentMode = mode;
+                calculateResult();
+            }
+
+            // ----- main calculation -----
+            function calculateResult() {
+                const rate = parseFloat(goldRateInput.value) || 0;
+
+                if (currentMode === 'toGold') {
+                    // money -> weight
+                    const money = parseFloat(inputMoney.value) || 0;
+                    if (rate <= 0 || money <= 0) {
+                        resultDisplay.innerText = '၀ ကျပ် ၀ ပဲ ၀ ရွေး';
+                        return;
+                    }
+
+                    // 1 kyattha = 16 pae = 128 yway
+                    const totalYway = (money / rate) * 128;   // total in yway
+                    const kyat = Math.floor(totalYway / 128);
+                    const remainderAfterKyat = totalYway % 128;
+                    const pae = Math.floor(remainderAfterKyat / 8);
+                    const yway = (remainderAfterKyat % 8).toFixed(1);   // one decimal for yway
+
+                    // format output (remove .0 if not needed)
+                    let ywayStr = yway.endsWith('.0') ? yway.slice(0, -2) : yway;
+                    resultDisplay.innerText = `${kyat} ကျပ် ${pae} ပဲ ${ywayStr} ရွေး`;
+                } 
+                else {  // toMoney
+                    const k = parseFloat(inputKyat.value) || 0;
+                    const p = parseFloat(inputPe.value) || 0;
+                    const y = parseFloat(inputYway.value) || 0;
+
+                    // simple validation: pae max 15, yway max 7.9 etc, but we don't enforce strictly, just calculate
+                    const totalKyattha = k + (p / 16) + (y / 128);
+                    const totalPrice = totalKyattha * rate;
+                    if (isNaN(totalPrice) || totalPrice < 0) {
+                        resultDisplay.innerText = '၀ ကျပ်';
+                        return;
+                    }
+                    // round to nearest kyat
+                    const rounded = Math.round(totalPrice);
+                    resultDisplay.innerText = rounded.toLocaleString() + ' ကျပ်';
+                }
+            }
+
+            // ----- event listeners for all inputs -----
+            goldRateInput.addEventListener('input', calculateResult);
+            inputMoney.addEventListener('input', calculateResult);
+            inputKyat.addEventListener('input', calculateResult);
+            inputPe.addEventListener('input', calculateResult);
+            inputYway.addEventListener('input', calculateResult);
+
+            // tab switching
+            tabToGold.addEventListener('click', () => setActiveTab('toGold'));
+            tabToMoney.addEventListener('click', () => setActiveTab('toMoney'));
+
+            // initialize with toGold mode
+            setActiveTab('toGold');
+
+            // optional: clamp pae and yway values for better UX (not required but nice)
+            function clampValues() {
+                // pae max 15
+                if (inputPe.value > 15) inputPe.value = 15;
+                if (inputPe.value < 0) inputPe.value = 0;
+                // yway max 7.9 (since 8 yway = 1 pae, but can be float)
+                if (inputYway.value > 7.9) inputYway.value = 7.9;
+                if (inputYway.value < 0) inputYway.value = 0;
+            }
+
+            inputPe.addEventListener('blur', clampValues);
+            inputYway.addEventListener('blur', clampValues);
+            inputPe.addEventListener('input', function() { if (this.value > 15) this.value = 15; });
+            inputYway.addEventListener('input', function() { if (this.value > 7.9) this.value = 7.9; });
+        })();
+    </script>
+</body>
+</html>
